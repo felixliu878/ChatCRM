@@ -56,7 +56,7 @@ The app reports these errors explicitly: database connection failure, missing `u
 
 ## Troubleshooting
 
-**"User table not found" (数据库中未找到'user'表)**
+**"User table not found" error**
 1. Confirm the database connection settings in `.env`.
 2. Check that the `user` table exists in the configured database.
 3. Check the table name's case (MySQL table names can be case-sensitive on Linux).

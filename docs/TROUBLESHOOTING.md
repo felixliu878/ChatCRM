@@ -1,6 +1,6 @@
 # Troubleshooting
 
-The app's user-facing messages are in Chinese. Each one is quoted below with its English meaning.
+The app's interface and log messages are in Chinese. They are given below by their English meaning.
 
 ## Nothing happens after confirming SQL
 
@@ -14,12 +14,12 @@ Common causes:
 ### Step 1: use the test page
 
 1. Open `http://localhost:5001/test`.
-2. Click, in order:
-   - **初始化会话** ("initialize session") to get a session ID
-   - **连接WebSocket** ("connect WebSocket") to open the real-time connection
-   - **登录** ("log in") with an account from your `user` table
-   - **发送消息** ("send message") with 显示所有客户 ("show all customers")
-   - **确认执行** ("confirm and run"), then read the log output
+2. Click the buttons from left to right:
+   - **Initialize session**, to get a session ID
+   - **Connect WebSocket**, to open the real-time connection
+   - **Log in**, with an account from your `user` table
+   - **Send message**, with a request such as "Show all customers"
+   - **Confirm and run**, then read the log output
 
 ### Step 2: check the browser console
 
@@ -41,26 +41,26 @@ Start the server in the foreground to see its debug output:
 python start_web.py
 ```
 
-A healthy request produces log lines like these (English meaning on the right):
+A healthy request logs these steps, in order:
 
-```text
-收到消息: session_id=xxx, message=显示所有客户          # message received
-处理结果: {'type': 'sql_confirmation', ...}            # processing result
-收到SQL确认: session_id=xxx, confirmed=True, sql=...   # confirmation received
-开始执行SQL查询...                                      # executing SQL
-SQL执行结果: {'type': 'success', ...}                  # execution result
-发送响应: {'message': '...', ...}                      # response sent
-```
+1. Message received (session ID and message text)
+2. Processing result (for example, a SQL confirmation request)
+3. SQL confirmation received (confirmed flag and SQL)
+4. Executing the SQL query
+5. SQL execution result
+6. Response sent
+
+If the log stops partway through, the last step shown tells you where the request failed.
 
 ## Common errors
 
-| Message | Meaning | Fix |
-|---|---|---|
-| 会话无效，请刷新页面 | Invalid session, please refresh | Refresh the page, which creates a new session, and log in again |
-| 连接断开 (connection status) | Disconnected | Check the network, restart the server, clear the browser cache |
-| 请先登录 | Please log in first | Log in again and confirm the account exists in the `user` table |
-| SQL生成失败 | SQL generation failed | Check `DEEPSEEK_API_KEY` and network access, or simplify the request |
-| 数据库连接失败 | Database connection failed | Check the `DB_*` values in `.env` and that MySQL is reachable |
+| Message (English meaning) | Fix |
+|---|---|
+| Invalid session, please refresh | Refresh the page, which creates a new session, and log in again |
+| Disconnected (connection status) | Check the network, restart the server, clear the browser cache |
+| Please log in first | Log in again and confirm the account exists in the `user` table |
+| SQL generation failed | Check `DEEPSEEK_API_KEY` and network access, or simplify the request |
+| Database connection failed | Check the `DB_*` values in `.env` and that MySQL is reachable |
 
 ## Full restart
 

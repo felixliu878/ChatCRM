@@ -62,15 +62,17 @@ python main.py         # terminal interface
 
 ## Example requests
 
-| Request (as typed) | Meaning | What happens |
-|---|---|---|
-| 显示所有客户 | Show all customers | `SELECT`, runs immediately |
-| 查找广东的客户 | Find customers in Guangdong | `SELECT … WHERE city IN (广州, 深圳, …)` |
-| 统计每个城市的客户数量 | Count customers per city | `GROUP BY` aggregate |
-| 添加新客户张三，电话13800138000，地址北京 | Add customer Zhang San, phone …, Beijing | `INSERT`, asks for confirmation |
-| 我今天给张三打了电话，他对产品很感兴趣 | I called Zhang San today; he's interested | `INSERT` into communication records, asks for confirmation |
-| 更新客户李四的公司名为腾讯 | Change Li Si's company to Tencent | `UPDATE`, asks for confirmation |
-| Show all customers with a gmail address | n/a | `SELECT … LIKE '%gmail%'` |
+| Request | What happens |
+|---|---|
+| Show all customers | `SELECT`, runs immediately |
+| Find customers in Guangdong | `SELECT … WHERE city IN ('Guangzhou', 'Shenzhen', …)`, expanded from the province |
+| Count customers per city | `GROUP BY` aggregate, runs immediately |
+| Show all customers with a gmail address | `SELECT … LIKE '%gmail%'`, runs immediately |
+| Add a new customer, Zhang San, phone 13800138000, based in Beijing | `INSERT`, asks for confirmation |
+| I called Zhang San today; he's very interested in the product | `INSERT` into communication records, asks for confirmation |
+| Change Li Si's company to Tencent | `UPDATE`, asks for confirmation |
+
+The same requests can also be typed in Chinese.
 
 ## Testing
 
