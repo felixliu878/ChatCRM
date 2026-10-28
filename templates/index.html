@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatCRM - AI智能客户关系管理系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>ChatCRM</span>
+                </div>
+                <div class="subtitle">AI智能CRM助手</div>
+            </div>
+            
+            <div class="user-info" id="userInfo" style="display: none;">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <div class="user-name" id="userName"></div>
+                    <div class="user-status">在线</div>
+                </div>
+            </div>
+            
+            <div class="connection-status" id="connectionStatus">
+                <div class="status-indicator offline"></div>
+                <span>正在连接...</span>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>退出登录</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 主聊天区域 -->
+        <div class="main-content">
+            <!-- 登录界面 -->
+            <div class="login-container" id="loginContainer">
+                <div class="login-card">
+                    <div class="login-header">
+                        <h1><i class="fas fa-robot"></i> ChatCRM</h1>
+                        <p>AI智能客户关系管理系统</p>
+                    </div>
+                    
+                    <div class="login-form">
+                        <form id="loginForm">
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="username" placeholder="用户名" required>
+                            </div>
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" placeholder="密码" required>
+                            </div>
+                            <button type="submit" class="login-btn">
+                                <span class="btn-text">登录</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </form>
+                        
+                        <div class="login-status" id="loginStatus"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 聊天界面 -->
+            <div class="chat-container" id="chatContainer" style="display: none;">
+                <div class="chat-header">
+                    <div class="chat-title">
+                        <h2><i class="fas fa-comments"></i> AI助手对话</h2>
+                        <p>使用自然语言管理您的CRM数据</p>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="action-btn" id="clearChatBtn">
+                            <i class="fas fa-trash"></i>
+                            <span>清除对话</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="welcome-message">
+                        <div class="bot-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <h3>👋 欢迎使用ChatCRM!</h3>
+                            <p>我是您的AI助手，可以帮您用自然语言管理CRM数据。</p>
+                            <div class="example-queries">
+                                <p><strong>示例操作：</strong></p>
+                                <div class="query-examples">
+                                    <span class="example-tag">添加新客户</span>
+                                    <span class="example-tag">查询已有客户</span>
+                                    <span class="example-tag">更改客户信息</span>
+                                    <span class="example-tag">记录客户沟通</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sql-confirmation" id="sqlConfirmation" style="display: none;">
+                    <div class="confirmation-card">
+                        <div class="confirmation-header">
+                            <h3><i class="fas fa-code"></i> SQL查询确认</h3>
+                            <div class="operation-type" id="operationType"></div>
+                        </div>
+                        <div class="sql-query" id="sqlQuery"></div>
+                        <div class="confirmation-actions">
+                            <button class="confirm-btn" id="confirmBtn">
+                                <i class="fas fa-check"></i>
+                                <span>确认执行</span>
+                            </button>
+                            <button class="cancel-btn" id="cancelBtn">
+                                <i class="fas fa-times"></i>
+                                <span>取消</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <form class="chat-input-form" id="chatForm">
+                        <div class="input-wrapper">
+                            <input type="text" id="messageInput" placeholder="输入您的需求，例如：显示所有客户..." autocomplete="off">
+                            <button type="submit" class="send-btn" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="input-suggestions">
+                        <span class="suggestion-tag" data-text="添加新客户">添加新客户</span>
+                        <span class="suggestion-tag" data-text="查询已有客户">查询已有客户</span>
+                        <span class="suggestion-tag" data-text="更改客户信息">更改客户信息</span>
+                        <span class="suggestion-tag" data-text="记录客户沟通">记录客户沟通</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>正在处理...</p>
+        </div>
+    </div>
+    
+    <!-- Toast通知 -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 
